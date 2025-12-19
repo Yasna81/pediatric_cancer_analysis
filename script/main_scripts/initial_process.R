@@ -28,7 +28,7 @@ vars <- c("WBC_2","ESR","CRP","GM_value_1")
 tab <- CreateTableOne(vars= vars ,strata = "lable",data = df , test= FALSE)
 print(tab,smd = TRUE)
 #absolute difference :
-install.packages("cobalt")
+#install.packages("cobalt")
 library(cobalt)
 bal.tab(lable ~ WBC_2 + ESR + CRP + GM_value_1, data = df ,un = TRUE, disp.means =TRUE)
 #table
@@ -136,9 +136,9 @@ df_4 <- df_3 %>%
         TRUE ~ "Other"
     ))
 
-#those who did not have nodules are marked as NA we change the nodule size and number of these cases from NA to 0.
-df_4$Number_nodule[is.na(df_4$Nodule_CT) | df_4$Nodule_CT == "No" ] <- 0
-df_4$Size_nodule[is.na(df_4$Nodule_CT) | df_4$Nodule_CT == "No" ] <- 0
+#those who did not have nodules we change the nodule size and number of these cases from NA to 0.
+df_4$Number_nodule[df_4$Nodule_CT == "No" ] <- 0
+df_4$Size_nodule[df_4$Nodule_CT == "No" ] <- 0
 # some patients have positive ct "yes" and a nodule size but the number of noudle is missing we assume that they have at least 1 nodule:
 df_4$Number_nodule[is.na(df_4$Number_nodule) & df_4$Nodule_CT == "Yes" ] <- 1
 #only one patient has a NA size of tumor. we leave it as it is .
